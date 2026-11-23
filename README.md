@@ -126,10 +126,6 @@ uv run python src/figures.py
 uv run pytest
 ```
 
-## Resume line
-
-> Built a convolutional variational autoencoder from scratch in PyTorch (reparameterisation trick, closed-form KL, importance-weighted likelihood bound) on Fashion-MNIST; compared latent sizes 2/16/32 (test −log p(x) 251.7 → 233.5 nats) and showed by per-dimension KL that only 11 latent dimensions are used even when 32 are available, with latent-space interpolation and 2-D latent maps as visual results.
-
 ## References
 
 - Kingma & Welling, *Auto-Encoding Variational Bayes*, 2014.
