@@ -57,22 +57,28 @@ Trousers, bags, shoes and tops get their own regions, and the borders blend smoo
 
 ## The core equations
 
-Encoder $q_\phi(z\mid x) = \mathcal N(\mu_\phi(x), \operatorname{diag}\sigma^2_\phi(x))$, prior
-$p(z) = \mathcal N(0, I)$, decoder $p_\theta(x\mid z) = \prod_{i=1}^{784}\operatorname{Bernoulli}(x_i;\ \pi_{\theta,i}(z))$.
+Encoder $q_\phi(z\mid x) = \mathcal N(\mu_\phi(x), \mathrm{diag}\sigma^2_\phi(x))$, prior
+$p(z) = \mathcal N(0, I)$, decoder $p_\theta(x\mid z) = \prod_{i=1}^{784}\mathrm{Bernoulli}(x_i;\ \pi_{\theta,i}(z))$.
 
 The model is trained by maximising the **evidence lower bound** (ELBO) on $\log p_\theta(x)$:
 
-$$\log p_\theta(x) \;\ge\; \mathcal L(x) = \underbrace{\mathbb E_{q_\phi(z\mid x)}\big[\log p_\theta(x\mid z)\big]}_{\text{reconstruction}} \;-\; \underbrace{D_{\mathrm{KL}}\big(q_\phi(z\mid x)\,\|\,p(z)\big)}_{\text{keep codes Gaussian}}$$
+```math
+\log p_\theta(x) \;\ge\; \mathcal L(x) = \underbrace{\mathbb E_{q_\phi(z\mid x)}\big[\log p_\theta(x\mid z)\big]}_{\text{reconstruction}} \;-\; \underbrace{D_{\mathrm{KL}}\big(q_\phi(z\mid x)\,\|\,p(z)\big)}_{\text{keep codes Gaussian}}
+```
 
 For a Gaussian encoder and a standard-normal prior, the KL term has a closed form:
 
-$$D_{\mathrm{KL}} = \tfrac12\sum_{j=1}^{d}\left(\mu_j^2 + \sigma_j^2 - \log\sigma_j^2 - 1\right)$$
+```math
+D_{\mathrm{KL}} = \tfrac12\sum_{j=1}^{d}\left(\mu_j^2 + \sigma_j^2 - \log\sigma_j^2 - 1\right)
+```
 
 Reparameterisation: $z = \mu_\phi(x) + \sigma_\phi(x)\odot\varepsilon,\ \varepsilon\sim\mathcal N(0, I)$.
 
 The test likelihood is reported with the tighter **importance-weighted bound** (IWAE, $k = 100$ samples):
 
-$$\log p_\theta(x) \;\ge\; \mathbb E\left[\log \frac1k\sum_{i=1}^{k}\frac{p_\theta(x\mid z_i)\,p(z_i)}{q_\phi(z_i\mid x)}\right],\qquad z_i\sim q_\phi(z\mid x)$$
+```math
+\log p_\theta(x) \;\ge\; \mathbb E\left[\log \frac1k\sum_{i=1}^{k}\frac{p_\theta(x\mid z_i)\,p(z_i)}{q_\phi(z_i\mid x)}\right],\qquad z_i\sim q_\phi(z\mid x)
+```
 
 ## More figures
 
